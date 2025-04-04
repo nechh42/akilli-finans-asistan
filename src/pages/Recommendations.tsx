@@ -14,8 +14,8 @@ const RECOMMENDATIONS = [
     name: "Bitcoin (BTC)",
     recommendation: "Al",
     riskLevel: "Orta",
-    price: 683245,
-    targetPrice: 750000,
+    price: 68324.5,
+    targetPrice: 75000.0,
     potentialReturn: 9.8,
     timeFrame: "1-3 ay",
     reasoning: "Bitcoin son dönemde güçlü bir momentum gösteriyor. Kurumsal alımlar ve artan adaptasyon, fiyatı destekleyici faktörler arasında."
@@ -46,10 +46,12 @@ const RECOMMENDATIONS = [
   }
 ];
 
-const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat("tr-TR", {
+const formatPrice = (price: number, isCrypto: boolean = false): string => {
+  return new Intl.NumberFormat(isCrypto ? "en-US" : "tr-TR", {
     style: "currency",
-    currency: "TRY",
+    currency: isCrypto ? "USD" : "TRY",
+    minimumFractionDigits: isCrypto ? 2 : 2,
+    maximumFractionDigits: isCrypto ? 2 : 2,
   }).format(price);
 };
 
@@ -115,7 +117,7 @@ const Recommendations = () => {
                   </div>
                   
                   <div className="text-right">
-                    <p className="font-bold text-lg">{formatPrice(recommendation.price)}</p>
+                    <p className="font-bold text-lg">{formatPrice(recommendation.price, recommendation.type === "Kripto")}</p>
                     <div className="flex items-center justify-end text-finance-teal-600 text-sm">
                       <TrendingUp className="h-4 w-4 mr-1" />
                       <span>+{recommendation.potentialReturn}% potansiyel</span>
@@ -128,7 +130,7 @@ const Recommendations = () => {
                 <div className="grid grid-cols-3 gap-4 text-sm mb-4">
                   <div>
                     <p className="text-gray-500">Hedef Fiyat</p>
-                    <p className="font-medium">{formatPrice(recommendation.targetPrice)}</p>
+                    <p className="font-medium">{formatPrice(recommendation.targetPrice, recommendation.type === "Kripto")}</p>
                   </div>
                   <div>
                     <p className="text-gray-500">Potansiyel Getiri</p>
@@ -186,7 +188,7 @@ const Recommendations = () => {
                   </div>
                   
                   <div className="text-right">
-                    <p className="font-bold text-lg">{formatPrice(recommendation.price)}</p>
+                    <p className="font-bold text-lg">{formatPrice(recommendation.price, true)}</p>
                     <div className="flex items-center justify-end text-finance-teal-600 text-sm">
                       <TrendingUp className="h-4 w-4 mr-1" />
                       <span>+{recommendation.potentialReturn}% potansiyel</span>
@@ -200,7 +202,7 @@ const Recommendations = () => {
                 <div className="grid grid-cols-3 gap-4 text-sm mb-4">
                   <div>
                     <p className="text-gray-500">Hedef Fiyat</p>
-                    <p className="font-medium">{formatPrice(recommendation.targetPrice)}</p>
+                    <p className="font-medium">{formatPrice(recommendation.targetPrice, true)}</p>
                   </div>
                   <div>
                     <p className="text-gray-500">Potansiyel Getiri</p>

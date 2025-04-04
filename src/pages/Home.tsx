@@ -8,17 +8,19 @@ import { Link } from "react-router-dom";
 
 // Mock data - to be replaced with real API data
 const MARKET_DATA = [
-  { id: 1, name: "Bitcoin", symbol: "BTC", price: 683245, change: 2.34 },
-  { id: 2, name: "Ethereum", symbol: "ETH", price: 42871, change: -1.27 },
+  { id: 1, name: "Bitcoin", symbol: "BTC", price: 68324.5, change: 2.34 },
+  { id: 2, name: "Ethereum", symbol: "ETH", price: 4287.1, change: -1.27 },
   { id: 3, name: "Dolar", symbol: "USD", price: 32.45, change: 0.45 },
   { id: 4, name: "Euro", symbol: "EUR", price: 35.12, change: 0.12 },
   { id: 5, name: "Altın", symbol: "XAU", price: 2134, change: 1.67 },
 ];
 
-const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat("tr-TR", {
+const formatPrice = (price: number, isCrypto: boolean = false): string => {
+  return new Intl.NumberFormat(isCrypto ? "en-US" : "tr-TR", {
     style: "currency",
-    currency: "TRY",
+    currency: isCrypto ? "USD" : "TRY",
+    minimumFractionDigits: isCrypto ? 2 : 2,
+    maximumFractionDigits: isCrypto ? 2 : 2,
   }).format(price);
 };
 
@@ -107,7 +109,7 @@ const Home = () => {
                   <CardContent className="pt-4">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="text-2xl font-bold">{formatPrice(item.price)}</p>
+                        <p className="text-2xl font-bold">{formatPrice(item.price, true)}</p>
                         <div className={`flex items-center ${item.change >= 0 ? "text-finance-teal-600" : "text-finance-red-600"}`}>
                           {item.change >= 0 ? (
                             <TrendingUp className="h-4 w-4 mr-1" />
